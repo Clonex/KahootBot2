@@ -1,0 +1,15 @@
+{
+  "name": "Kahoot-bot",
+  "version": "1.0.0",
+  "main": "start.js",
+  "repository": "https://github.com/Clonex/KahootSmasher-NodeJS.git",
+  "author": "Clonex",
+  "license": "MIT",
+  "dependencies": {
+    "async-limiter": "^1.0.1",
+    "atob": "^2.1.2",
+    "safe-buffer": "^5.2.0",
+    "ultron": "^1.1.1",
+    "ws": "^7.2.0"
+  }
+}
