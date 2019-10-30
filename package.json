@@ -15,6 +15,6 @@
   },
   "scripts": {
     "start": "node --experimental-modules main.js",
-    "oldStart": "node oldStart.js"
+    "oldStart": "node oldFiles/oldStart.js"
   }
 }
