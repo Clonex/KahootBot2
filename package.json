@@ -1,9 +1,9 @@
 {
-  "name": "Kahoot-bot",
+  "name": "KahootBot",
   "version": "1.0.0",
-  "main": "start.js",
+  "main": "main.js",
   "type": "module",
-  "repository": "https://github.com/Clonex/KahootSmasher-NodeJS.git",
+  "repository": "https://github.com/Clonex/KahootBot.git",
   "author": "Clonex",
   "license": "MIT",
   "dependencies": {
@@ -14,7 +14,7 @@
     "ws": "^7.2.0"
   },
   "scripts": {
-    "start": "node --experimental-modules start.js",
+    "start": "node --experimental-modules main.js",
     "oldStart": "node oldStart.js"
   }
 }
