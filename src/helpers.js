@@ -1,5 +1,6 @@
 import https from "https";
 import atob from "atob";
+
 export function getChallenge(gameID)
 {
     return new Promise(r => https.get("https://kahoot.it/reserve/session/" + gameID, (res) => {

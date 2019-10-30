@@ -70,6 +70,7 @@ export default class Bot {
     /*
         WS helpers
     */
+   
     Handshake(message) {
         this.clientId = message.clientId;
         this.SendSubscription("/service/controller", true);
@@ -81,6 +82,7 @@ export default class Bot {
             advice: {timeout: 0},
         }, "/meta/connect");
     }
+
     Unsubscribe(message) {
         this.subscriptionRepliesRecived++;
         if(this.subscriptionRepliesRecived == 6) {
@@ -122,10 +124,12 @@ export default class Bot {
             this.SendLoginInfo();
         }
     }
+
     SendSubscription(subscribeTo, subscribe) {
         var message = {subscription: subscribeTo};
         this.SendMessage(message, subscribe ? "/meta/subscribe" : "/meta/unsubscribe");
     }
+
     SendLoginInfo() {
         var message = {
             data: {
@@ -136,7 +140,8 @@ export default class Bot {
             }
         };
         this.SendMessage(message,"/service/controller");
-    };
+    }
+
     Connect(message) {
         if(!message.advice) {
             this.SendConnectMessage();
@@ -144,6 +149,7 @@ export default class Bot {
         }
         //console.log("Error: ", message.advice);
     }
+
     SendConnectMessage() {
         this.SendMessage({"connectionType": "websocket"}, "/meta/connect");
     }
