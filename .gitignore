@@ -15,3 +15,4 @@ jspm_packages/
 .npm
 
 yarn.lock
+package-lock.json
