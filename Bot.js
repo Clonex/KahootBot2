@@ -20,7 +20,6 @@ export default class Bot {
     async join(gameID)
     {
         let cData = await getChallenge(gameID);
-        console.log("Challenge data", cData);
         let token = solveChallenge(cData.xKahootToken ,cData.body.challenge);
         this.gameID = gameID;
 
@@ -64,7 +63,7 @@ export default class Bot {
                 this.Controller(recivedData);
                 break;
             default:
-                console.log("Bad channel: "+ recivedData);
+                //console.log("Bad channel: "+ recivedData);
         }
     }
 
@@ -94,11 +93,11 @@ export default class Bot {
 
         if(message.data.type == "loginResponse") {
             if(message.data.error) {
-                console.log("Bad name: " + this.name);
+                //console.log("Bad name: " + this.name);
                 this.name = this.name + "H";
                 this.SendLoginInfo();
             } else {
-                console.log("Logged in: " + this.uniqueId);
+                //console.log("Logged in: " + this.uniqueId);
             }
         }
     }
@@ -143,7 +142,7 @@ export default class Bot {
             this.SendConnectMessage();
             return;
         }
-        console.log("Error: " + message.advice);
+        //console.log("Error: ", message.advice);
     }
     SendConnectMessage() {
         this.SendMessage({"connectionType": "websocket"}, "/meta/connect");
