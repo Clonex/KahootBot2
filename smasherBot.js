@@ -156,6 +156,7 @@ function InitiateSmashAndAddBot(token, kahootId, nameConvention, baseName, delay
 }
 
 function AddBot(token) {
+
     currentBotAnswers.push(-1);
     currentBotArray.push(new BotObject(token, runningId));
     runningId++;
@@ -208,6 +209,7 @@ function StopSmash() {
 }
 
 function BotObject(token, runningId) {
+    console.log("Starting bot", token, runningId);
     var _self = this;
     
     this.token = token;
