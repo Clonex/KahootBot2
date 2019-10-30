@@ -11,5 +11,8 @@
     "safe-buffer": "^5.2.0",
     "ultron": "^1.1.1",
     "ws": "^7.2.0"
+  },
+  "scripts": {
+    "start": "node start"
   }
 }

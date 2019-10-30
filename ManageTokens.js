@@ -23,7 +23,7 @@ module.exports = {
   Stop: function () {
     StopSmashing();
   },
-  Start: function(number,id) {
+  Start: function(id,number) {
     StartSmashing(number,id);
   },
   GetChallenge: function(id) {
