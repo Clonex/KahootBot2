@@ -25,7 +25,7 @@ export default class Bot {
 
         this.openWebSocket = new WebSocket(`wss://kahoot.it/cometd/${this.gameID}/${token}`);
 
-        this.openWebSocket.onopen = function(event) {
+        this.openWebSocket.onopen = function(event){
             let openObject =  {
                 version: "1.0",
                 minimumVersion: "1.0",
@@ -43,7 +43,7 @@ export default class Bot {
     onMessage = (event) =>
     {
         var recivedData = JSON.parse(event.data.substring(1,event.data.length-1));
-        switch(recivedData.channel) {
+        switch(recivedData.channel){
             case "/meta/handshake":
                 this.Handshake(recivedData);
                 break;
@@ -56,9 +56,9 @@ export default class Bot {
             case "/meta/unsubscribe":
                 this.Unsubscribe(recivedData);
                 break;
-            /*case "/service/player":
+            case "/service/player":
                 this.Player(recivedData);
-                break;*/
+                break;
             case "/service/controller":
                 this.Controller(recivedData);
                 break;
@@ -71,7 +71,7 @@ export default class Bot {
         WS helpers
     */
    
-    Handshake(message) {
+    Handshake(message){
         this.clientId = message.clientId;
         this.SendSubscription("/service/controller", true);
         this.SendSubscription("/service/player", true);
@@ -83,30 +83,28 @@ export default class Bot {
         }, "/meta/connect");
     }
 
-    Unsubscribe(message) {
+    Unsubscribe(message){
         this.subscriptionRepliesRecived++;
-        if(this.subscriptionRepliesRecived == 6) {
+        if(this.subscriptionRepliesRecived == 6){
             this.SendLoginInfo();
         }
     }
 
-    Controller(message) {
+    Controller(message){
         if(message.successful) return;
 
-        if(message.data.type == "loginResponse") {
-            if(message.data.error) {
+        if(message.data.type == "loginResponse"){
+            if(message.data.error){
                 //console.log("Bad name: " + this.name);
                 this.name = this.name + "H";
                 this.SendLoginInfo();
-            } else {
-                //console.log("Logged in: " + this.uniqueId);
             }
         }
     }
 
-    Subscribe(message) {
+    Subscribe(message){
         this.subscriptionRepliesRecived++;
-        if(this.initalSubscription && this.subscriptionRepliesRecived == 3) {
+        if(this.initalSubscription && this.subscriptionRepliesRecived == 3){
             this.initalSubscription = false;
             this.subscriptionRepliesRecived = 0;
             
@@ -120,17 +118,17 @@ export default class Bot {
             
             this.SendConnectMessage();
         }
-        if(this.subscriptionRepliesRecived == 6) {
+        if(this.subscriptionRepliesRecived == 6){
             this.SendLoginInfo();
         }
     }
 
-    SendSubscription(subscribeTo, subscribe) {
+    SendSubscription(subscribeTo, subscribe){
         var message = {subscription: subscribeTo};
         this.SendMessage(message, subscribe ? "/meta/subscribe" : "/meta/unsubscribe");
     }
 
-    SendLoginInfo() {
+    SendLoginInfo(){
         var message = {
             data: {
                 type: "login",
@@ -142,23 +140,46 @@ export default class Bot {
         this.SendMessage(message,"/service/controller");
     }
 
-    Connect(message) {
-        if(!message.advice) {
+    Player(message){
+        var data = JSON.parse(message.data.content);
+        if(data.gameBlockType && data.gameBlockType === "quiz" && !data.timeLeft)
+        {
+            let questions = data.quizQuestionAnswers[data.questionIndex];
+            let answer = Math.floor(Math.random()*questions);
+            //console.log("Answering", answer);
+            this.AnswerQuestion(answer);
+        }
+    }
+
+    AnswerQuestion(choice){
+        this.SendMessage({
+            data: {
+                id: 45,
+                type: "message",
+                gameid: parseInt(this.gameID),
+                host: "kahoot.it",
+                content: `{"choice": ${choice}}`,
+            }
+        }, "/service/controller");
+    };
+
+    Connect(message){
+        if(!message.advice){
             this.SendConnectMessage();
             return;
         }
         //console.log("Error: ", message.advice);
     }
 
-    SendConnectMessage() {
+    SendConnectMessage(){
         this.SendMessage({"connectionType": "websocket"}, "/meta/connect");
     }
 
-    SendMessage(message, channel) {
+    SendMessage(message, channel){
         message.id = this.currentMessageId;
         message.channel = channel;
         
-        if(this.clientId != "") {
+        if(this.clientId != ""){
             message.clientId = this.clientId;
         }
 

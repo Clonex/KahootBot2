@@ -21,7 +21,7 @@ export default class Kahoot {
                 let bot = new Bot(`${this.prefix}_${i}`);
                 bot.join(this.gameID);
                 this.bots.push(bot);
-            }, 100 * i);
+            }, 35 * i);
         }
     }
 }
