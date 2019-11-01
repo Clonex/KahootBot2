@@ -4,7 +4,7 @@
 # Setup
 ```sh
 git clone https://github.com/Clonex/KahootBot.git
-cd KahootSmasher-NodeJS
+cd KahootBot
 yarn
 ```
 
