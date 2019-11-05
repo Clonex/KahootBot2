@@ -7,6 +7,7 @@ export default class Bot {
 
     gameID = null;
     openWebSocket = null;
+    questionListener = null;
 
     clientId = 0;
     currentMessageId = 0;
@@ -140,18 +141,20 @@ export default class Bot {
         this.SendMessage(message,"/service/controller");
     }
 
+    setQuestionListener(func)
+    {
+        this.questionListener = func;
+    }
+    
     Player(message){
         var data = JSON.parse(message.data.content);
-        if(data.gameBlockType && data.gameBlockType === "quiz" && !data.timeLeft)
+        if(data.gameBlockType && data.gameBlockType === "quiz" && !data.timeLeft && this.questionListener)
         {
-            let questions = data.quizQuestionAnswers[data.questionIndex];
-            let answer = Math.floor(Math.random()*questions);
-            //console.log("Answering", answer);
-            this.AnswerQuestion(answer);
+           this.questionListener(data);
         }
     }
 
-    AnswerQuestion(choice){
+    answerQuestion(choice){
         this.SendMessage({
             data: {
                 id: 45,

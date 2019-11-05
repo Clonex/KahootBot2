@@ -20,6 +20,12 @@ export default class Kahoot {
             setTimeout(() => {
                 let bot = new Bot(`${this.prefix}_${i}`);
                 bot.join(this.gameID);
+                bot.setQuestionListener((data) => {
+                    let questions = data.quizQuestionAnswers[data.questionIndex];
+                    let answer = Math.floor(Math.random()*questions);
+                    
+                    bot.answerQuestion(answer);
+                });
                 this.bots.push(bot);
             }, 35 * i);
         }
