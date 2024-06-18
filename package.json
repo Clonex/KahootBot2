@@ -11,7 +11,7 @@
     "atob": "^2.1.2",
     "safe-buffer": "^5.2.0",
     "ultron": "^1.1.1",
-    "ws": "^7.2.0"
+    "ws": "^5.2.4"
   },
   "scripts": {
     "start": "node --experimental-modules main.js",
